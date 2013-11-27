@@ -94,20 +94,12 @@ function updateFlight(id, price){
     console.log('price updated');      
 }
 
-function getAllDays(s, e) {
-    var a = [];
 
-    while(s < e) {
-        a.push(s);
-        s = new Date(s.setDate(
-            s.getDate() + 1
-        ))
-    }
-
-    a.push(e);
-
-    return a;
-};
+function unpack(data){
+    data.forEach(function (entry){
+        
+    });
+}
 
 // TODO implement better logging for error
 $.ajax({
@@ -116,7 +108,7 @@ $.ajax({
     dataType: 'json',
     success: function (data) {
 
-        var trip_queries = data;
+        var trip_queries = unpack(data);
 
         var completed = 0;
 
@@ -128,42 +120,11 @@ $.ajax({
             
             var date_to_leave = new Date(t[0], t[1]-1, t[2]);
 
-            // var departing = []
-            // if(item.end_departing_range != null){
-            //     var te = entry.end_departing_range.split(/[- :]/);
-            //     var date_to_leave_end = new Date(te[0], te[1]-1, te[2]);
-            //     departing = getAllDays(date_to_leave date_to_leave_end)
-            // }else{
-            //    departing.push(date_to_leave);
-            // }
-
             var p = entry.returning.split(/[- :]/);
 
             var date_to_return = new Date(p[0], p[1]-1, p[2]);
 
-            // var returning = []
-            // if(item.end_returning_range != null){
-            //     var pe = entry.end_departing_range.split(/[- :]/);
-            //     var date_to_return_end = new Date(pe[0], pe[1]-1, pe[2]);
-            //     returning = getAllDays(date_to_return, date_to_return_end)
-            // }else{
-            //     returning.push(date_to_return);
-            // }
-
-
-            if (today < date_to_leave /*&& departing[departing.length - 1] < returning[0]*/){
-                // departing.forEach( function(depart_date){
-                        // returning.forEach( forEach(return_date) {
-                            // var trimmed_depart = (depart_date.getMonth()+1)+'/'+depart_date.getDate()+'/'+depart_date.getUTCFullYear();
-                            // var trimmed_return = (return_date.getMonth()+1)+'/'+return_date.getDate()+'/'+return_date.getUTCFullYear();
-
-
-                            // track the lowest price and date range
-                            // augment completed counter
-                        // });
-                        // Log at this level
-                // });
-
+            if (today < date_to_leave && date_to_leave < date_to_return){
                 var departing = t[1]+'/'+t[2]+'/'+t[0];
                 var returning = p[1]+'/'+p[2]+'/'+p[0];
                 var leaving_from = entry.leaving_from;
