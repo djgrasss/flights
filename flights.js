@@ -6,7 +6,6 @@
 // require('/home/ubuntu/jquery-2.0.3.js');
 
 require('C:/Users/Aran/Dropbox/CS Share/flights/jquery-2.0.3.js');
-
 /**
  * Wait until the test condition is true or a timeout occurs. Useful for waiting
  * on a server response or for a ui change (fadeIn, etc.) to occur.
@@ -59,7 +58,7 @@ function sendMail(leaving_from, arriving_at, lowest_cost, departing, returning, 
     var data = {
         "key": "FCppeY-FJBY6_Mvtq_rMKQ",
         "message": 
-{            "html": "The flight from "+leaving_from+" to "+arriving_at+" is currently at $"+lowest_cost+", leaving on "
+        {   "html": "The flight from "+leaving_from+" to "+arriving_at+" is currently at $"+lowest_cost+", leaving on "
                     +departing+" and returning on "+returning+" <a href='"+query+"'>BUY IT NOW</a>",
             "text": "The flight from "+leaving_from+" to "+arriving_at+" is currently at $"+lowest_cost+", leaving on "
                     +departing+" and returning on "+returning+" get it at: "+query,
@@ -91,24 +90,60 @@ function updateFlight(id, price){
         data: data
     });  
 
-    console.log('price updated');      
+    console.log('price updated to '+price+' for '+ id);      
 }
 
-
-function unpack(data){
-    data.forEach(function (entry){
-        
-    });
+function getFlexString(flex_string){
+    if(flex_string == "0"){
+        return '';
+    }else if(flex_string =="+-3"){
+        return '-flexible';
+    }else if(flex_string=="+-2"){
+        return '-flexible-2days';
+    }else if(flex_string=="+-1"){
+        return '-flexible-1day';
+    }else if(flex_string=="+1"){
+        return '-flexible-1day-after';
+    }else if(flex_string=="-1"){
+        return '-flexible-1day-before';
+    }else{
+        return '';
+    }
 }
 
-// TODO implement better logging for error
+function padDate(num){
+    if(num < 10){
+        return '0'+num;
+    }else{
+        return num;
+    }
+}
+
+function padLoc(loc, pad){
+    if(pad==1){
+        return loc+',nearby';
+    }else{
+        return loc;
+    }
+}
+
+function getUserAgent(){
+    var items = Array(
+        'Mozilla/5.0 (Windows NT 6.1; rv:9.0) Gecko/20100101 Firefox/9.0',
+        'Mozilla/5.0 (Windows; U; Windows NT 5.1; en-US) AppleWebKit/525.19 (KHTML, like Gecko) Chrome/1.0.154.53 Safari/525.19',
+        'Opera/9.80 (X11; Linux i686; U; ru) Presto/2.8.131 Version/11.11',
+        'Mozilla/5.0 (X11; Linux i686 on x86_64; rv:12.0) Gecko/20100101 Firefox/12.0');
+    return items[Math.floor(Math.random()*items.length)];
+}
+
+// TODO figure out if you should have num=20 or not
 $.ajax({
     type: "GET",
-    url: 'http://arankhanna.com/queryjson.php',
+    url: 'http://arankhanna.com/queryjson.php?num=20',
     dataType: 'json',
     success: function (data) {
 
-        var trip_queries = unpack(data);
+        var trip_queries = data;
 
         var completed = 0;
 
@@ -116,31 +151,38 @@ $.ajax({
 
             var today = new Date();
 
-            var t = entry.departing.split(/[- :]/);
-            
-            var date_to_leave = new Date(t[0], t[1]-1, t[2]);
+            var p = entry.departing.split(/[- :]/);
+            var t = entry.returning.split(/[- :]/);
 
-            var p = entry.returning.split(/[- :]/);
+            var depart_time = new Date(p[0], p[1]-1, p[2]);
+            var return_time = new Date(t[0], t[1]-1, t[2]);
 
-            var date_to_return = new Date(p[0], p[1]-1, p[2]);
+            var return_flex = getFlexString(entry.returning_flexible);
+            var depart_flex = getFlexString(entry.departing_flexible);
 
-            if (today < date_to_leave && date_to_leave < date_to_return){
-                var departing = t[1]+'/'+t[2]+'/'+t[0];
-                var returning = p[1]+'/'+p[2]+'/'+p[0];
-                var leaving_from = entry.leaving_from;
-                var arriving_at = entry.arriving_at;
+            if (today < depart_time && depart_time < return_time){
+
+                var depart_month = padDate(depart_time.getMonth()+1);
+                var depart_day = padDate(depart_time.getDate());
+                var return_month = padDate(return_time.getMonth()+1);
+                var return_day = padDate(return_time.getDate());
+
+                var arriving_at = padLoc(entry.arriving_at, entry.arriving_nearby);
+                var leaving_from = padLoc(entry.leaving_from, entry.leaving_nearby);
+                var departing = depart_time.getFullYear()+'-'+depart_month+'-'+depart_day+depart_flex;
+                var returning = return_time.getFullYear()+'-'+return_month+'-'+return_day+return_flex;
                 var price_floor = entry.price_floor;
                 var owners = entry.owners;
                 var query_id = entry.id;
 
-                var query = 'http://www.kayak.com/s/search/air?d1=' +departing+'&depart_flex=3&d2=' +returning+'&return_flex=3&l1='+ leaving_from +'&l2='+ arriving_at;
+                var query = "http://www.kayak.com/flights/"+leaving_from+"-"+arriving_at+"/"+departing+"/"+returning;
 
-                console.log('seraching for flights from '+leaving_from+' to '+arriving_at+' from '+departing+' till '+returning+' lower than '+price_floor+' for '+owners);
+                console.log('seraching for flights from '+leaving_from+' to '+arriving_at+' from '+departing+' till '+returning+' lower than '+price_floor+' for '+owners+' with query '+ query);
 
-                // TODO randomize user agent
                 var page = require('webpage').create();
-                page.settings.userAgent = 'Mozilla/5.0 (Windows NT 6.1; rv:9.0) Gecko/20100101 Firefox/9.0';
-                console.log('The default user agent is ' + page.settings.userAgent);
+                page.settings.userAgent = getUserAgent();
+                
+                console.log('The user agent is ' + page.settings.userAgent);
 
                 page.open(query, function (status) {
                     // Check for page load success
@@ -185,10 +227,15 @@ $.ajax({
                             });
 
                             var lowest_cost = Math.min(nonstop, one_stop, two_or_more_stop);
-
+                            
                             if(lowest_cost <= price_floor){
                                 console.log('Price floor broken, sending alert');
                                 sendMail(leaving_from, arriving_at, lowest_cost, departing, returning, query, owners);
+                            }
+
+                            // Log an error sceen shot of the page if no price is found
+                            if(lowest_cost == Number.MAX_VALUE){
+                                page.render('errors/'+leaving_from+'-'+arriving_at+departing+returning+'.png');
                             }
 
                             updateFlight(query_id, lowest_cost);
@@ -198,11 +245,12 @@ $.ajax({
                     }
                 });
             }else{
+                console.log('invalid date range');
                 completed++;
             }
         });
 
-            
+
         var interval = setInterval(function (){
             if(completed==trip_queries.length){
                 phantom.exit();

@@ -1,7 +1,7 @@
             <?php
-
+            
             header('Access-Control-Allow-Origin: *');
-
+            
             //Variables for connecting to your database.
             //These variable values come from your hosting account.
             $hostname = "flightwatch.db.2169805.hostedresource.com";
@@ -16,24 +16,24 @@
             mysql_connect($hostname, $username, $password) OR DIE ("Unable to 
             connect to database! Please try again later.");
             mysql_select_db($dbname);
-			
-            //Fetching from your database table.
-            // TODO update on $_GET['checkout'] to allow for concurrent processing
-            $num = $_GET['num'];
-            if(is_numeric($num) && $num>0){
-                  $query = "SELECT * FROM $usertable ORDER BY last_updated LIMIT $num";
-            }else{
-                  $query ="SELECT * FROM $usertable";
+
+            $id = mysql_real_escape_string($_POST['id']);
+
+            if(is_numeric($id)){
+                  try{  
+                        $query = "DELETE FROM $usertable WHERE id='$id'";
+                        $result = mysql_query($query);
+                  }
+                  catch(Exception $e){
+                        echo("SQL Error");  
+                        throw new Exception( 'Something has really gone wrong', 0, $e);  
+                  }  
             }
+                  
+            mysql_close();
 
-            $result = mysql_query($query);
 
-           while($e=mysql_fetch_assoc($result))
-              $output[]=$e;
-			
-		    print(json_encode($output));
-          
-		    mysql_close();
-			
+            header( 'Location: http://www.arankhanna.com/flights.html' ) ;
+            
 
             ?>

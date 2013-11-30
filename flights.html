@@ -58,13 +58,27 @@
 		    					var departing_time = item.departing;
 		    					var returning_time = item.returning;
 
-		    					if(item.end_departing_range != null)
-		    						departing_time += " to "+ item.end_departing_range;
+		    					if(item.departing_flexible != 0){
+		    						departing_time+=(item.departing_flexible+' days');
+		    					}
 
-		    					if(item.end_returning_range != null)
-		    						returning_time += " to "+ item.end_returning_range;
+		    					if(item.returning_flexible != 0){
+		    						returning_time+=(item.returning_flexible+' days');
+		    					}
 
-					  			return "<tr><td>" + item.leaving_from + "</td><td>" + item.arriving_at + "</td><td>" + departing_time + "</td><td>" + returning_time + "</td><td>" + item.price_floor +"</td><td>" + item.current_price +"</td><td>" + item.last_updated +"</td><td><button class='create-user' id='" + item.id + "'>Add to email watchlist</button></td></tr>";
+		    					var leaving = item.leaving_from;
+		    					var arriving = item.arriving_at;
+
+		    					if(item.leaving_nearby == 1){
+		    						leaving += ' or nearby';
+		    					}
+
+		    					if(item.arriving_nearby == 1){
+		    						arriving += ' or nearby';
+		    					}
+
+
+					  			return "<tr id='row-" + item.id + "'><td>" + leaving + "</td><td>" + arriving + "</td><td>" + departing_time + "</td><td>" + returning_time + "</td><td>" + item.price_floor +"</td><td>" + item.current_price +"</td><td>" + item.last_updated +"</td><td><button class='create-user' id='" + item.id + "'>Add to email watchlist</button></td></tr>";
 						}).join("");
 		    	$('#all_queries').append(info);
 		
@@ -129,10 +143,20 @@
 							        type: "POST",
 							        url: 'http://arankhanna.com/addwatcher.php',
 							        data: data
-							  	});  
-				              
+							  	});
 				              	$( this ).dialog( "close" );
 				          }
+				        },
+				        "Delete Alert": function(){
+				        	var final_id = $( "#flight-id" ).val();
+				        	var data = {"id":final_id};
+				        	$.ajax({
+							        type: "POST",
+							        url: 'http://arankhanna.com/deleteflight.php',
+							        data: data
+							  	}); 
+				        	$( this ).dialog( "close" );
+				        	$ ( "#row-"+final_id ).remove();
 				        },
 				        Cancel: function() {
 				          $( this ).dialog( "close" );
@@ -156,6 +180,14 @@
 	  </script>
 	</head>
 	<body>
+
+		<!--TODO Construct Date Ranges:
+
+		Routes and Price Floors:
+
+		Email and Password: -->
+
+
 		<style type="text/css">
 			.tftable {font-size:12px;color:#333333;width:100%;border-width: 1px;border-color: #729ea5;border-collapse: collapse;}
 			.tftable th {font-size:12px;background-color:#acc8cc;border-width: 1px;padding: 8px;border-style: solid;border-color: #729ea5;text-align:left;}
@@ -163,15 +195,64 @@
 			.tftable td {font-size:12px;border-width: 1px;padding: 8px;border-style: solid;border-color: #729ea5;}
 			.tftable tr:hover {background-color:#ffffff;}
 		</style>
-
 		<table class="tftable" border="1" id="all_queries">
+			<tr><th>From</th><th>To</th><th>Leaving</th><th>Returning</th><th>Price Floor</th><th>Email</th><th>Password</th><th>Submit</th></tr>
+			<form method="post" action="http://arankhanna.com/addflight.php" id="add_flight">
+				<tr>
+					<td>
+						Airport Code:<input type="text" name="leaving_from" required="true">
+						Nearby Airports:<input type="checkbox" checked="true" name="leaving_nearby">
+					</td>
+					<td>
+						Airport Code:<input type="text" name="arriving_at" required="true">
+						Nearby Airports:<input type="checkbox" checked="true" name="arriving_nearby">
+					</td>
+					<td>
+						Departure Date:
+						<input type="date" name="departing" required="true">
+						Flexibility:
+						<select name="departing_flexible" form="add_flight">
+							<option value="0">Not Flexible</option>
+							<option value="+-3">3 days before and after</option>
+							<option value="+-2">2 days before and after</option>
+							<option value="+-1">1 day before and after</option>
+							<option value="+1">1 day after</option>
+							<option value="-1">1 day before</option>
+						</select>
+					</td>
+					<td>
+						Returning Date:
+						<input type="date" name="returning" required="true">
+						Flexibility:
+						<select name="returning_flexible" form="add_flight">
+							<option value="0">Not Flexible</option>
+							<option value="+-3">3 days before and after</option>
+							<option value="+-2">2 days before and after</option>
+							<option value="+-1">1 day before and after</option>
+							<option value="+1">1 day after</option>
+							<option value="-1">1 day before</option>
+						</select>
+					</td>
+					<td>
+						Price To Alert:<input type="number" name="price_floor" min="1" max="50000" required="true">
+					</td>
+					<td>
+						Email To Alert:<input type="email" name="email" required="true">
+					</td>
+					<td>
+						Do I Know You?:<input type="password" name="password" required="true">
+					</td>
+					<td>
+						<input type="submit" value="Create Alert">
+					</td>
+				</tr>
+			</form>
 			<tr><th>From</th><th>To</th><th>Leaving</th><th>Returning</th><th>Price Floor</th><th>Current Price</th><th>Last Updated</th><th>Follow</th></tr>
+
 		</table>
 
-		
-
 		<div id="dialog-form" title="Add to alert list">
-  			<p class="validateTips">Add yourself to this list to get alerted when this flight prrice drops below the floor.</p>
+  			<p class="validateTips">Add yourself to this list to get alerted when this flight price drops below the floor.</p>
 		 	<form>
 			  	<fieldset>
 			    	<label for="email">Email</label>
@@ -180,9 +261,6 @@
 			  	</fieldset>
 		  	</form>
 		</div>
-
-
-		
 
 	</body>
 </html>
