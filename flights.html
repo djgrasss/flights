@@ -1,28 +1,17 @@
 <!DOCTYPE HTML>
 <html lang="en">
   <head>
-    <meta charset="utf-8">
+        <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
     <title>Flight Deal Searcher</title>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="description" content="Up to the minute flight alerts, dynamically scraped from the web">
     <meta name="author" content="Aran Khanna">
 
     <!-- styles -->
-    <link href="bootstrap.css" rel="stylesheet">
-    <link href="styles.css" rel="stylesheet">
-  	
-  	<!-- Google Fonts call. Font Used Open Sans & Open Sans Condensed -->
-	<link href='http://fonts.googleapis.com/css?family=Open+Sans+Condensed:300,700' rel='stylesheet' type='text/css'>
-	<link href='http://fonts.googleapis.com/css?family=Open+Sans' rel='stylesheet' type='text/css'>    
-	<style>
-      body {
-        padding-top: 60px; /* 60px to make the container go all the way to the bottom of the topbar */
-      }
-    </style>
-    <link href="bootstrap-responsive.css" rel="stylesheet">
+    <link rel="stylesheet" href="css/flight_style.css" type="text/css" media="screen"/>
 
      <style>
-	    body { font-size: 62.5%; }
+	    body { font-size: 62.5%; padding-top: 60px;}
 	    label, input { display:block; }
 	    input.text { margin-bottom:12px; width:95%; padding: .4em; }
 	    fieldset { padding:0; border:0; margin-top:25px; }
@@ -46,6 +35,7 @@
     <!-- JQuery -->
     <link rel="stylesheet" href="http://code.jquery.com/ui/1.10.3/themes/smoothness/jquery-ui.css">
   	<script src="http://code.jquery.com/jquery-1.9.1.js"></script>
+  	<script type="text/javascript" src="sliding.form.js"></script>
   	<script src="http://code.jquery.com/ui/1.10.3/jquery-ui.js"></script>
     <script type="text/javascript">
 	    $.ajax({
@@ -177,16 +167,123 @@
 				});
     		}
 		});
+	
+		$(function() {
+		    $( document ).tooltip();
+		});
+
 	  </script>
 	</head>
 	<body>
 
-		<!--TODO Construct Date Ranges:
+		<div id="content">
+            <h1>Add New Flight Alert Batch</h1>
+            <div id="wrapper">
+                <div id="steps">
+                    <form id="formElem" name="formElem" action="http://arankhanna.com/addflight.php" method="post">
+                        <fieldset class="step">
+                            <legend>Add Routes And Prices</legend>
+                            <p>
+                            	<!-- TODO FIX STYLE -->
+                                <label for="leaving_from">Departing City or Region's Airport Code</label>
+                                <input id="leaving_from" name="leaving_from" type="text" title="The Exact Three Letter Capitalized Code For The Airport"/>
 
-		Routes and Price Floors:
-
-		Email and Password: -->
-
+                            	Depart From Nearby Airports
+                            	<input id="leaving_nearby" type="checkbox" checked="true" name="leaving_nearby">
+                            </p>
+                            <p>
+                                <label for="arriving_at">Arrival City or Region's Airport Code</label>
+                                <input id="arriving_at" name="arriving_at" type="text" title="The Exact Three Letter Capitalized Code For The Airport"/>
+                            	Arrive At Nearby Airports
+                            	<input id="arriving_nearby" type="checkbox" checked="true" name="arriving_nearby">
+                            </p>
+                            <p>
+                                <label for="price_floor">Price To Alert For Route</label>
+                                <input id="price_floor" name="price_floor" type="number" title="Price Under Which You Will Be Alerted For This Route" AUTOCOMPLETE=OFF />
+                            </p>
+                            <p id="batch_routes" class="batch_button" title="Add To Current Batch of Desired Locations">
+                            	<b>Add to Batch</b>
+                            </p>
+                        </fieldset>
+                        <fieldset class="step">
+                            <legend>Add Dates To Search</legend>
+                            <p>
+                            	<label for="departing">Departing Date</label>
+								<input type="date" id="departing" name="departing">
+                            </p>
+                            <p>
+								<label for="departing_flexible">Departing Flexibility</label>
+								<select id="departing_flexible" name="departing_flexible" form="formElem">
+									<option value="0" seleceted>Not Flexible</option>
+									<option value="+-3">3 days before and after</option>
+									<option value="+-2">2 days before and after</option>
+									<option value="+-1">1 day before and after</option>
+									<option value="+1">1 day after</option>
+									<option value="-1">1 day before</option>
+								</select>
+                            </p>
+                            <p>
+                            	<label for="returning">Returning Date</label>
+								<input type="date" id="returning" name="returning">
+                            </p>
+                            <p>
+								<label for="returning_flexible">Returning Flexibility</label>
+								<select id="returning_flexible" name="returning_flexible" form="formElem">
+									<option value="0" seleceted>Not Flexible</option>
+									<option value="+-3">3 days before and after</option>
+									<option value="+-2">2 days before and after</option>
+									<option value="+-1">1 day before and after</option>
+									<option value="+1">1 day after</option>
+									<option value="-1">1 day before</option>
+								</select>
+                            </p>
+                            <p id="batch_dates" class="batch_button" title="Add To Current Batch of Available Travel Dates">
+                            	<b>Add To Batch</b>
+                            </p>
+                        </fieldset>
+                        <fieldset class="step">
+                            <legend>Add Email And Password</legend>
+                            <p>
+                                <label for="email">Email To Alert</label>
+                                <input id="email" name="email" placeholder="aran@arankhanna.com" type="email" />
+                            </p>
+                            <p>
+                                <label for="password">Password</label>
+                                <input id="password" name="password" type="password" 
+                                title="Sorry, running scraping is computationally expensive, so only people I know can use this service" AUTOCOMPLETE=OFF  />
+                            </p>
+                        </fieldset>
+						<fieldset class="step">
+                            <legend>Confirm</legend>
+							<p>
+								This will create a batch of alerts, checking every location in your location list for every date range in your dates list.
+							</p>
+                            <p class="submit">
+                                <button id="registerButton" type="submit">Create Alerts</button>
+                            </p>
+                        </fieldset>
+                        <input type="hidden" id="form_batch_routes" name="batch_routes" value="">
+                    	<input type="hidden" id="form_batch_dates" name="batch_dates" value="">
+                    </form>
+                </div>
+                <div id="navigation" style="display:none;">
+                    <ul>
+                        <li class="selected">
+                            <a href="#">Add Routes And Prices</a>
+                        </li>
+                        <li>
+                            <a href="#">Add Dates To Search</a>
+                        </li>
+                        <li>
+                            <a href="#">Add Email And Password</a>
+                        </li>
+						<li>
+                            <a href="#">Confirm</a>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </div>
 
 		<style type="text/css">
 			.tftable {font-size:12px;color:#333333;width:100%;border-width: 1px;border-color: #729ea5;border-collapse: collapse;}
@@ -195,58 +292,9 @@
 			.tftable td {font-size:12px;border-width: 1px;padding: 8px;border-style: solid;border-color: #729ea5;}
 			.tftable tr:hover {background-color:#ffffff;}
 		</style>
+
 		<table class="tftable" border="1" id="all_queries">
-			<tr><th>From</th><th>To</th><th>Leaving</th><th>Returning</th><th>Price Floor</th><th>Email</th><th>Password</th><th>Submit</th></tr>
-			<form method="post" action="http://arankhanna.com/addflight.php" id="add_flight">
-				<tr>
-					<td>
-						Airport Code:<input type="text" name="leaving_from" required="true">
-						Nearby Airports:<input type="checkbox" checked="true" name="leaving_nearby">
-					</td>
-					<td>
-						Airport Code:<input type="text" name="arriving_at" required="true">
-						Nearby Airports:<input type="checkbox" checked="true" name="arriving_nearby">
-					</td>
-					<td>
-						Departure Date:
-						<input type="date" name="departing" required="true">
-						Flexibility:
-						<select name="departing_flexible" form="add_flight">
-							<option value="0">Not Flexible</option>
-							<option value="+-3">3 days before and after</option>
-							<option value="+-2">2 days before and after</option>
-							<option value="+-1">1 day before and after</option>
-							<option value="+1">1 day after</option>
-							<option value="-1">1 day before</option>
-						</select>
-					</td>
-					<td>
-						Returning Date:
-						<input type="date" name="returning" required="true">
-						Flexibility:
-						<select name="returning_flexible" form="add_flight">
-							<option value="0">Not Flexible</option>
-							<option value="+-3">3 days before and after</option>
-							<option value="+-2">2 days before and after</option>
-							<option value="+-1">1 day before and after</option>
-							<option value="+1">1 day after</option>
-							<option value="-1">1 day before</option>
-						</select>
-					</td>
-					<td>
-						Price To Alert:<input type="number" name="price_floor" min="1" max="50000" required="true">
-					</td>
-					<td>
-						Email To Alert:<input type="email" name="email" required="true">
-					</td>
-					<td>
-						Do I Know You?:<input type="password" name="password" required="true">
-					</td>
-					<td>
-						<input type="submit" value="Create Alert">
-					</td>
-				</tr>
-			</form>
+
 			<tr><th>From</th><th>To</th><th>Leaving</th><th>Returning</th><th>Price Floor</th><th>Current Price</th><th>Last Updated</th><th>Follow</th></tr>
 
 		</table>

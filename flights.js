@@ -1,9 +1,9 @@
 /**
  * This script is the exclusive work and property of Aran Khanna
  * Any use or reproduction of any part of this document without his express concent is
- * expressly forbidden and punishable by testicular torsion.
+ * expressly forbidden and punishable by law.
 **/
-// require('/home/ubuntu/jquery-2.0.3.js');
+// require('/home/pi/jquery-2.0.3.js');
 
 require('C:/Users/Aran/Dropbox/CS Share/flights/jquery-2.0.3.js');
 /**
@@ -93,6 +93,17 @@ function updateFlight(id, price){
     console.log('price updated to '+price+' for '+ id);      
 }
 
+function deleteFlight(id){
+    var data = {"id":id}
+    $.ajax({
+        type: "POST",
+        url: 'http://arankhanna.com/deleteflight.php',
+        data: data
+    });  
+
+    console.log('deleted flight '+ id); 
+}
+
 function getFlexString(flex_string){
     if(flex_string == "0"){
         return '';
@@ -149,6 +160,8 @@ $.ajax({
 
         trip_queries.forEach(function (entry){
 
+            var query_id = entry.id;
+
             var today = new Date();
 
             var p = entry.departing.split(/[- :]/);
@@ -157,11 +170,9 @@ $.ajax({
             var depart_time = new Date(p[0], p[1]-1, p[2]);
             var return_time = new Date(t[0], t[1]-1, t[2]);
 
-            var return_flex = getFlexString(entry.returning_flexible);
-            var depart_flex = getFlexString(entry.departing_flexible);
-
             if (today < depart_time && depart_time < return_time){
-
+                var return_flex = getFlexString(entry.returning_flexible);
+                var depart_flex = getFlexString(entry.departing_flexible);
                 var depart_month = padDate(depart_time.getMonth()+1);
                 var depart_day = padDate(depart_time.getDate());
                 var return_month = padDate(return_time.getMonth()+1);
@@ -173,7 +184,6 @@ $.ajax({
                 var returning = return_time.getFullYear()+'-'+return_month+'-'+return_day+return_flex;
                 var price_floor = entry.price_floor;
                 var owners = entry.owners;
-                var query_id = entry.id;
 
                 var query = "http://www.kayak.com/flights/"+leaving_from+"-"+arriving_at+"/"+departing+"/"+returning;
 
@@ -245,14 +255,15 @@ $.ajax({
                     }
                 });
             }else{
-                console.log('invalid date range');
+                console.log('invalid date range removing entry');
+                deleteFlight(query_id);
                 completed++;
             }
         });
 
 
         var interval = setInterval(function (){
-            if(completed==trip_queries.length){
+            if(completed>=trip_queries.length){
                 phantom.exit();
             }
         }, 2000);
