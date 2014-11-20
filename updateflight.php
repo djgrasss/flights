@@ -11,6 +11,7 @@
             //These variable values need to be changed by you before deploying
             $password = "Aran1025@";
             $usertable = "queries";
+            $logtable = "records";
         
             //Connecting to your database
             mysql_connect($hostname, $username, $password) OR DIE ("Unable to 
@@ -25,6 +26,10 @@
                   try{
                         $query = "UPDATE $usertable SET current_price='$price', last_updated=CURRENT_TIMESTAMP WHERE id='$id'";
                         mysql_query($query);
+
+                        $query2 = "INSERT INTO $logtable (id, price) VALUES ('$id', '$price')";
+                        mysql_query($query2);
+
                         echo("success");
                   }
                   catch(Exception $e){  

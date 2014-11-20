@@ -1,0 +1,65 @@
+PhantomJS is launching GhostDriver...
+[INFO  - 2014-11-11T06:53:50.768Z] GhostDriver - Main - running on port 2906
+[INFO  - 2014-11-11T06:53:51.687Z] Session [7ec036d0-696f-11e4-97f1-356dfc3ad9af] - _decorateNewWindow - page.settings: {"XSSAuditingEnabled":false,"javascriptCanCloseWindows":true,"javascriptCanOpenWindows":true,"javascriptEnabled":true,"loadImages":true,"localToRemoteUrlAccessEnabled":false,"userAgent":"Mozilla/5.0 (Windows NT 6.1; WOW64) AppleWebKit/534.34 (KHTML, like Gecko) PhantomJS/1.9.2 Safari/534.34","webSecurityEnabled":true}
+[INFO  - 2014-11-11T06:53:51.687Z] Session [7ec036d0-696f-11e4-97f1-356dfc3ad9af] - page.customHeaders:  - {}
+[INFO  - 2014-11-11T06:53:51.687Z] Session [7ec036d0-696f-11e4-97f1-356dfc3ad9af] - CONSTRUCTOR - Desired Capabilities: {"platform":"ANY","browserName":"phantomjs","version":"","javascriptEnabled":true}
+[INFO  - 2014-11-11T06:53:51.687Z] Session [7ec036d0-696f-11e4-97f1-356dfc3ad9af] - CONSTRUCTOR - Negotiated Capabilities: {"browserName":"phantomjs","version":"1.9.2","driverName":"ghostdriver","driverVersion":"1.0.4","platform":"windows-7-32bit","javascriptEnabled":true,"takesScreenshot":true,"handlesAlerts":false,"databaseEnabled":false,"locationContextEnabled":false,"applicationCacheEnabled":false,"browserConnectionEnabled":false,"cssSelectorsEnabled":true,"webStorageEnabled":false,"rotatable":false,"acceptSslCerts":false,"nativeEvents":true,"proxy":{"proxyType":"direct"}}
+[INFO  - 2014-11-11T06:53:51.688Z] SessionManagerReqHand - _postNewSessionCommand - New Session Created: 7ec036d0-696f-11e4-97f1-356dfc3ad9af
+[ERROR - 2014-11-11T06:54:02.011Z] Session [7ec036d0-696f-11e4-97f1-356dfc3ad9af] - Page at 'http://matrix.itasoftware.com/' - Console Error (msg): Error: Required parameter longitude was omitted
+[ERROR - 2014-11-11T06:54:02.011Z] Session [7ec036d0-696f-11e4-97f1-356dfc3ad9af] - Page at 'http://matrix.itasoftware.com/' - Console Error (stack): [
+  {
+    "file": "",
+    "line": 9,
+    "function": ""
+  },
+  {
+    "file": "",
+    "line": 9,
+    "function": ""
+  },
+  {
+    "file": "http://matrix.itasoftware.com/js/dojo/dojo.js?0.7.20120825.1",
+    "line": 16,
+    "function": ""
+  },
+  {
+    "file": "",
+    "line": 9,
+    "function": ""
+  },
+  {
+    "file": "",
+    "line": 9,
+    "function": ""
+  },
+  {
+    "file": "http://matrix.itasoftware.com/js/dojo/dojo.js?0.7.20120825.1",
+    "line": 16,
+    "function": ""
+  }
+]
+[ERROR - 2014-11-11T06:54:05.351Z] WebElementLocator - _handleLocateCommand - Element(s) NOT Found: GAVE UP. Search Stop Time: 1415688845321
+[ERROR - 2014-11-11T06:54:12.662Z] WebElementLocator - _handleLocateCommand - Element(s) NOT Found: GAVE UP. Search Stop Time: 1415688852621
+[ERROR - 2014-11-11T06:54:14.905Z] WebElementLocator - _handleLocateCommand - Element(s) NOT Found: GAVE UP. Search Stop Time: 1415688854865
+[ERROR - 2014-11-11T06:54:17.134Z] WebElementLocator - _handleLocateCommand - Element(s) NOT Found: GAVE UP. Search Stop Time: 1415688857103
+[ERROR - 2014-11-11T06:54:19.340Z] WebElementLocator - _handleLocateCommand - Element(s) NOT Found: GAVE UP. Search Stop Time: 1415688859314
+[ERROR - 2014-11-11T06:54:21.544Z] WebElementLocator - _handleLocateCommand - Element(s) NOT Found: GAVE UP. Search Stop Time: 1415688861518
+[ERROR - 2014-11-11T06:54:23.753Z] WebElementLocator - _handleLocateCommand - Element(s) NOT Found: GAVE UP. Search Stop Time: 1415688863724
+[ERROR - 2014-11-11T06:54:25.966Z] WebElementLocator - _handleLocateCommand - Element(s) NOT Found: GAVE UP. Search Stop Time: 1415688865930
+[ERROR - 2014-11-11T06:54:28.211Z] WebElementLocator - _handleLocateCommand - Element(s) NOT Found: GAVE UP. Search Stop Time: 1415688868144
+[ERROR - 2014-11-11T06:54:30.426Z] WebElementLocator - _handleLocateCommand - Element(s) NOT Found: GAVE UP. Search Stop Time: 1415688870395
+[ERROR - 2014-11-11T06:54:32.643Z] WebElementLocator - _handleLocateCommand - Element(s) NOT Found: GAVE UP. Search Stop Time: 1415688872612
+[ERROR - 2014-11-11T06:54:34.845Z] WebElementLocator - _handleLocateCommand - Element(s) NOT Found: GAVE UP. Search Stop Time: 1415688874820
+[ERROR - 2014-11-11T06:54:37.055Z] WebElementLocator - _handleLocateCommand - Element(s) NOT Found: GAVE UP. Search Stop Time: 1415688877028
+[ERROR - 2014-11-11T06:54:39.259Z] WebElementLocator - _handleLocateCommand - Element(s) NOT Found: GAVE UP. Search Stop Time: 1415688879235
+[ERROR - 2014-11-11T06:54:41.471Z] WebElementLocator - _handleLocateCommand - Element(s) NOT Found: GAVE UP. Search Stop Time: 1415688881443
+[ERROR - 2014-11-11T06:54:43.688Z] WebElementLocator - _handleLocateCommand - Element(s) NOT Found: GAVE UP. Search Stop Time: 1415688883652
+[ERROR - 2014-11-11T06:54:45.903Z] WebElementLocator - _handleLocateCommand - Element(s) NOT Found: GAVE UP. Search Stop Time: 1415688885869
+[ERROR - 2014-11-11T06:54:48.140Z] WebElementLocator - _handleLocateCommand - Element(s) NOT Found: GAVE UP. Search Stop Time: 1415688888083
+[ERROR - 2014-11-11T06:54:50.358Z] WebElementLocator - _handleLocateCommand - Element(s) NOT Found: GAVE UP. Search Stop Time: 1415688890322
+[ERROR - 2014-11-11T06:54:52.572Z] WebElementLocator - _handleLocateCommand - Element(s) NOT Found: GAVE UP. Search Stop Time: 1415688892546
+[ERROR - 2014-11-11T06:54:54.794Z] WebElementLocator - _handleLocateCommand - Element(s) NOT Found: GAVE UP. Search Stop Time: 1415688894765
+[ERROR - 2014-11-11T06:54:57.008Z] WebElementLocator - _handleLocateCommand - Element(s) NOT Found: GAVE UP. Search Stop Time: 1415688896980
+[ERROR - 2014-11-11T06:54:59.209Z] WebElementLocator - _handleLocateCommand - Element(s) NOT Found: GAVE UP. Search Stop Time: 1415688899183
+7415
+[ERROR - 2014-11-11T06:54:49.414Z] WebElementLocator - _handleLocateCommand - Element(s) NOT Found: GAVE UP. Search Stop Time: 1415688889379

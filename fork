@@ -1,0 +1,169 @@
+fork_parent
+	
+	get new PID
+
+	update child proc
+
+	create shared struct
+		increment ref_count
+
+	update child and parent proc pointers to shared structs
+
+	thread_fork(struct proc_child, fork_child, &tf)
+
+	P(sem)
+
+	return PID
+
+	error handling in parent return -1
+
+
+fork_child
+	copy data from parent tf
+	V(sem)
+	modify v0 to 0
+	mipsusermode
+
+
+execv
+	open file path
+	create new as
+	load elf
+
+	close file path
+
+	lock exec
+
+	make new buffer of arglength
+
+	copyin arguments to buffer keeping alignment in mind
+
+	copyout to the top of the user stack
+
+	release exec
+
+	activate as
+
+	free old as
+
+	update proc as to point to new as	
+
+	ente_new_process
+
+	error handling return -1
+
+
+waitpid
+	check pidtable
+	search parent's child array for shared struct
+	if its not there error handling
+	lock struct
+	check refcount if 1 collect exit code
+	if not then wait on exited
+	destroy shared struct
+
+	error handling (special case to go through and reduce ref count in kill curthread)	
+
+
+exit
+	update common structs (use locks)
+	destroy if refcount is 0 
+
+kill_curthread
+	call exit instead of panic
+	(do we get user process or not?)
+
+PID
+	bitmap
+	API to get next one and free current one
+
+
+shared struct
+	ref count
+	exit code
+	child pid
+	lock
+	cv
+	bool exited
+
+file descriptor
+	vnode
+	off_t offset
+	refcount
+	mode_t mode
+	int flags
+	lock
+
+proccess
+	pid
+	file descriptor array
+	relations array of ptrs to shared structs
+
+thread
+	t_priority
+
+
+open
+	copyin path
+	check path
+	vnode = vfs_open(path)
+	allocate file descriptor
+	increment refcount
+	add to proc file descriptor table
+	return index
+
+
+close
+	lock
+	decrement refcount
+	if refcount zero deallocate
+	else unlock
+
+
+read
+	allocate iovac
+	allocate uio(iovac)
+	lock
+	offset = vop_read(uio)
+	read into kernel stack
+	change offset
+	unlock
+	copyout read to the ptr
+	return number of bytes read
+
+
+write
+	copyin buf
+	lock
+	vop_write
+	change offset
+	unlock
+	return number of bytes written
+
+
+lseek
+	check fd is not console device
+	lock
+	vop_tryseek
+	change offset, watch for overflow
+	unlock
+	return new offset
+
+
+dup2
+lock both fd
+	if new fd open
+		decrement refcount
+	change new pointer for newfd to oldfd
+unlock both fd
+
+
+__getcwd
+	lock
+	vfs_getcwd(vnode)
+	unlock
+
+chdir
+	lock
+	vfs_chdir(vnode)
+	unlock

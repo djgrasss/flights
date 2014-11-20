@@ -186,14 +186,14 @@
                             <p>
                             	<!-- TODO FIX STYLE -->
                                 <label for="leaving_from">Departing City or Region's Airport Code</label>
-                                <input id="leaving_from" name="leaving_from" type="text" title="The Exact Three Letter Capitalized Code For The Airport"/>
+                                <input id="leaving_from" name="leaving_from" type="text" title="The Exact Three Letter Capitalized Code For The Airport" AUTOCOMPLETE=OFF />
 
                             	Depart From Nearby Airports
                             	<input id="leaving_nearby" type="checkbox" checked="true" name="leaving_nearby">
                             </p>
                             <p>
                                 <label for="arriving_at">Arrival City or Region's Airport Code</label>
-                                <input id="arriving_at" name="arriving_at" type="text" title="The Exact Three Letter Capitalized Code For The Airport"/>
+                                <input id="arriving_at" name="arriving_at" type="text" title="The Exact Three Letter Capitalized Code For The Airport" AUTOCOMPLETE=OFF />
                             	Arrive At Nearby Airports
                             	<input id="arriving_nearby" type="checkbox" checked="true" name="arriving_nearby">
                             </p>
@@ -202,7 +202,7 @@
                                 <input id="price_floor" name="price_floor" type="number" title="Price Under Which You Will Be Alerted For This Route" AUTOCOMPLETE=OFF />
                             </p>
                             <p id="batch_routes" class="batch_button" title="Add To Current Batch of Desired Locations">
-                            	<b>Add to Batch</b>
+                            	Add to Batch
                             </p>
                         </fieldset>
                         <fieldset class="step">
@@ -215,11 +215,10 @@
 								<label for="departing_flexible">Departing Flexibility</label>
 								<select id="departing_flexible" name="departing_flexible" form="formElem">
 									<option value="0" seleceted>Not Flexible</option>
-									<option value="+-3">3 days before and after</option>
-									<option value="+-2">2 days before and after</option>
 									<option value="+-1">1 day before and after</option>
 									<option value="+1">1 day after</option>
 									<option value="-1">1 day before</option>
+									<option value="+-2">2 days before and after</option>
 								</select>
                             </p>
                             <p>
@@ -228,17 +227,16 @@
                             </p>
                             <p>
 								<label for="returning_flexible">Returning Flexibility</label>
-								<select id="returning_flexible" name="returning_flexible" form="formElem">
+								<select id="returning_flexible" name="returning_flexible" form="formElem" >
 									<option value="0" seleceted>Not Flexible</option>
-									<option value="+-3">3 days before and after</option>
-									<option value="+-2">2 days before and after</option>
 									<option value="+-1">1 day before and after</option>
 									<option value="+1">1 day after</option>
 									<option value="-1">1 day before</option>
+									<option value="+-2">2 days before and after</option>
 								</select>
                             </p>
                             <p id="batch_dates" class="batch_button" title="Add To Current Batch of Available Travel Dates">
-                            	<b>Add To Batch</b>
+                            	Add To Batch
                             </p>
                         </fieldset>
                         <fieldset class="step">
@@ -262,8 +260,8 @@
                                 <button id="registerButton" type="submit">Create Alerts</button>
                             </p>
                         </fieldset>
-                        <input type="hidden" id="form_batch_routes" name="batch_routes" value="">
-                    	<input type="hidden" id="form_batch_dates" name="batch_dates" value="">
+                        <input type="hidden" id="form_batch_routes" name="batch_routes" value="" AUTOCOMPLETE=OFF >
+                    	<input type="hidden" id="form_batch_dates" name="batch_dates" value="" AUTOCOMPLETE=OFF >
                     </form>
                 </div>
                 <div id="navigation" style="display:none;">
@@ -284,7 +282,8 @@
                 </div>
             </div>
         </div>
-
+        <div id="date_count" style="display: none;">0</div>
+       	<div id="route_count" style="display: none;">0</div>
 		<style type="text/css">
 			.tftable {font-size:12px;color:#333333;width:100%;border-width: 1px;border-color: #729ea5;border-collapse: collapse;}
 			.tftable th {font-size:12px;background-color:#acc8cc;border-width: 1px;padding: 8px;border-style: solid;border-color: #729ea5;text-align:left;}
@@ -304,7 +303,7 @@
 		 	<form>
 			  	<fieldset>
 			    	<label for="email">Email</label>
-			    	<input type="text" name="email" id="email" value="" class="text ui-widget-content ui-corner-all">
+			    	<input type="email" name="email" id="email" value="" class="text ui-widget-content ui-corner-all" AUTOCOMPLETE=OFF>
 			    	<input type="hidden" name="id" id="flight-id" value="0">
 			  	</fieldset>
 		  	</form>

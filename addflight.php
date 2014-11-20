@@ -34,8 +34,8 @@
                               $batch_dates=array();
                         }
 
-                        $leaving_from = mysql_real_escape_string($_POST["leaving_from"]);
-                        $arriving_at = mysql_real_escape_string($_POST["arriving_at"]);
+                        $leaving_from = mysql_real_escape_string(strtoupper($_POST["leaving_from"]));
+                        $arriving_at = mysql_real_escape_string(strtoupper($_POST["arriving_at"]));
                         $price_floor= mysql_real_escape_string($_POST["price_floor"]);
                         $arriving_nearby = '0';
                         $leaving_nearby = '0';

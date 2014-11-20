@@ -62,7 +62,7 @@ $(function() {
 			if(current == fieldsetCount)
 				validateSteps();
 			else
-				validateStep(prev);
+				validateStep(prev, true);
 			$('#formElem').children(':nth-child('+ parseInt(current) +')').find(':input:first').focus();	
 		});
         e.preventDefault();
@@ -91,7 +91,7 @@ $(function() {
 	function validateSteps(){
 		var FormErrors = false;
 		for(var i = 1; i < fieldsetCount; ++i){
-			var error = validateStep(i);
+			var error = validateStep(i, true);
 			if(error == -1)
 				FormErrors = true;
 		}
@@ -102,16 +102,16 @@ $(function() {
 	validates one fieldset
 	and returns -1 if errors found, or 1 if not
 	*/
-	function validateStep(step){
+	function validateStep(step, batch){
 		if(step == fieldsetCount) return;
 		
 		var override = false;
 
-		if(step==1){
+		if(step==1 && batch){
 			if($( '#form_batch_routes' ).val()!=''){
 				override = true;
 			}
-		}else if(step==2){
+		}else if(step==2 && batch){
 			if($( '#form_batch_dates' ).val()!=''){
 				override =true;
 			}
@@ -158,7 +158,7 @@ $(function() {
 
 	$(function() {
 	    $('#batch_routes').click(function(){
-	    	if(validateStep(1)==1){
+	    	if(validateStep(1, false)==1){
 	    		var from = $( '#leaving_from' ).val();
 	    		
 	    		var to = $( '#arriving_at' ).val();
@@ -185,10 +185,17 @@ $(function() {
 	    		$( '#price_floor' ).val('');
 	    		$( '#arriving_at' ).val('');
 				$( '#leaving_from' ).val('');
+
+
+				var count = parseInt($( '#route_count' ).text());
+				var new_count = count+1;
+				$( '#route_count' ).text(new_count);
+				$( this ).text("Add To Batch ("+new_count+" currently in batch)");
+
 	    	}
 	    });
 	    $('#batch_dates').click(function(){
-	    	if(validateStep(2)==1){
+	    	if(validateStep(2, false)==1){
 	    		var leaving = $( '#departing' ).val();
 	    		
 	    		var returning = $( '#returning' ).val();
@@ -204,6 +211,12 @@ $(function() {
 	    		$( '#departing' ).val('');
 	    		
 	    		$( '#returning' ).val('');
+
+
+	    		var count = parseInt($( '#date_count' ).text());
+				var new_count = count+1;
+				$( '#date_count' ).text(new_count);
+				$( this ).text("Add To Batch ("+new_count+" currently in batch)");
 	    	}
 	    });
 	});

@@ -1,0 +1,102 @@
+querying for flights from BOS to CUN leaving 02/12/2014 and returning 02/19/2014
+filling return date
+filling depart flexible
+filling depart date
+filling return flexible
+filling depart location
+filling arrive location
+querying
+waiting on response
+data loaded
+price updated to 374 for 82
+querying for flights from BOS to PAR leaving 02/12/2014 and returning 02/19/2014
+filling return date
+filling depart flexible
+filling depart date
+filling return flexible
+filling depart location
+filling arrive location
+querying
+waiting on response
+data loaded
+price updated to 862 for 84
+querying for flights from BOS to PAR leaving 02/06/2014 and returning 02/09/2014
+filling return date
+filling depart flexible
+filling depart date
+filling return flexible
+filling depart location
+filling arrive location
+querying
+waiting on response
+data loaded
+price updated to 907 for 83
+querying for flights from BOS to ROM leaving 02/06/2014 and returning 02/09/2014
+filling return date
+filling depart flexible
+filling depart date
+filling return flexible
+filling depart location
+filling arrive location
+querying
+waiting on response
+data loaded
+price updated to 1089 for 85
+querying for flights from BOS to CUN leaving 03/14/2014 and returning 03/21/2014
+filling return date
+filling depart flexible
+filling depart date
+filling return flexible
+filling depart location
+filling arrive location
+querying
+waiting on response
+data loaded
+price updated to 379 for 90
+querying for flights from BOS to RKV leaving 02/06/2014 and returning 02/09/2014
+filling return date
+filling depart flexible
+filling depart date
+filling return flexible
+filling depart location
+filling arrive location
+querying
+waiting on response
+data loaded
+price updated to 652 for 87
+querying for flights from BOS to PUJ leaving 03/14/2014 and returning 03/21/2014
+filling return date
+filling depart flexible
+filling depart date
+filling return flexible
+filling depart location
+filling arrive location
+querying
+waiting on response
+data loaded
+price updated to 302 for 94
+querying for flights from BOS to ROM leaving 02/12/2014 and returning 02/19/2014
+filling return date
+filling depart flexible
+filling depart date
+filling return flexible
+filling depart location
+filling arrive location
+querying
+waiting on response
+data loaded
+price updated to 1008 for 86
+starting new loop
+getting 4 queries
+process complete
+process complete
+process complete
+process complete
+waiting for next loop
+starting new loop
+getting 4 queries
+process complete
+process complete
+process complete
+process complete
+waiting for next loop
